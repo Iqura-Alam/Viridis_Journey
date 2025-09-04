@@ -102,8 +102,30 @@ public class GameBoardController {
     	coalImg = new Image("file:D:/ViridisJourney2/src/img/coalISO.png");
     	batteryImg = new Image("file:D:/ViridisJourney2/src/img/batteryISO.png");
     	schoolImg = new Image("file:D:/ViridisJourney2/src/img/schoolISO.png");
-        
-        
+
+        // Setup drag functionality
+        setupDragForButton(solarImgButton, EnergySourceType.SOLAR, solarImg);
+        setupDragForButton(windImgButton, EnergySourceType.WIND, windImg);
+        setupDragForButton(gasImgButton, EnergySourceType.GAS, gasImg);
+        setupDragForButton(coalImgButton, EnergySourceType.COAL, coalImg);
+        setupDragForButton(batteryImgButton, EnergySourceType.BATTERY, batteryImg);
+
+        // Add drop shadow to game grid
+        gameGrid.setEffect(new DropShadow(20, Color.rgb(0,0,0,0.25)));
+        leftPanel.setPickOnBounds(true);
+        double btnSize = 50; // match with text button height
+        setupImageButton(solarImgButton, solarImg, btnSize, btnSize, "Cost: 500\nOutput: 50\nPollution: 0");
+        setupImageButton(windImgButton, windImg, btnSize, btnSize, "Cost: 600\nOutput: 40\nPollution: 0");
+        setupImageButton(gasImgButton, gasImg, btnSize, btnSize, "Cost: 800\nOutput: 80\nPollution: 3");
+        setupImageButton(coalImgButton, coalImg, btnSize, btnSize, "Cost: 1000\nOutput: 100\nPollution: 5");
+        setupImageButton(batteryImgButton, batteryImg, btnSize, btnSize, "Cost: 1000\nOutput: 0\nPollution: 0");
+        // Setup tooltips after drag setup (ensures no interference)
+        solarButton.setTooltip(new Tooltip("Cost: 500\nOutput: 50\nPollution: 0"));
+        windButton.setTooltip(new Tooltip("Cost: 600\nOutput: 40\nPollution: 0"));
+        gasButton.setTooltip(new Tooltip("Cost: 800\nOutput: 80\nPollution: 3"));
+        coalButton.setTooltip(new Tooltip("Cost: 1000\nOutput: 100\nPollution: 5"));
+        batteryButton.setTooltip(new Tooltip("Cost: 1000\nOutput: 0\nPollution: 0"));
+
         solarImage.setImage(solarImg);
         windImage.setImage(windImg);
         gasImage.setImage(gasImg);
@@ -122,8 +144,64 @@ public class GameBoardController {
         coalButton.setDisable(false);
         batteryButton.setDisable(false);
     }
+    public void setGameState(GameState gameState) {
 
- 
+        this.gameState = gameState;
+
+        selectedDifficulty = gameState.getCity().getDifficulty();
+
+        Weather todayWeather = gameState.getCity().getWeather();
+
+        updateWeather(todayWeather);
+
+        updateHUD();
+
+    }
+
+    @FXML
+    private List<StackPane> highlightedTiles = new ArrayList<>();
+    @FXML
+    private void hoverOn(MouseEvent event) {
+        Button btn = (Button) event.getSource();
+        switch (btn.getId()) {
+            case "solarButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #f39c12; -fx-text-fill: black; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "windButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #2980b9; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "gasButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "coalButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #606060; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "batteryButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+        }
+    }
+    @FXML
+    private void hoverOff(MouseEvent event) {
+        Button btn = (Button) event.getSource();
+        switch (btn.getId()) {
+            case "solarButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #f1c40f; -fx-text-fill: black; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "windButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "gasButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "coalButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "batteryButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #2ecc71; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+        }
+    }
+    private void setupImageButton(Button button, Image img, double width, double height, String tooltipText) {
+// ImageView for the button
+        ImageView icon = new ImageView(img);
+        icon.setFitWidth(width);
+        icon.setFitHeight(height);
+        button.setGraphic(icon);
+
+// Remove background & border
+        button.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-border-color: transparent;");
+
+// Hover effect
+        button.setOnMouseEntered(e -> icon.setOpacity(0.7));
+        button.setOnMouseExited(e -> icon.setOpacity(1.0));
+
+// Tooltip
+        Tooltip tooltip = new Tooltip(tooltipText);
+        tooltip.setStyle("-fx-font-size: 12px;");
+        button.setTooltip(tooltip);
+    }
+
     // ====== Setup ======
     public void setupGameBoard() {
         if (gameState == null) {
