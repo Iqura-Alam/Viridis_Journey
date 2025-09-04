@@ -201,7 +201,62 @@ public class GameBoardController {
         tooltip.setStyle("-fx-font-size: 12px;");
         button.setTooltip(tooltip);
     }
+    private void setupDragForButton(Button button, EnergySourceType type, Image img) {
+        button.setOnMousePressed(e -> {
+            selectedType = type;
+            dragShadow.setImage(img);
+            dragShadow.setOpacity(0.7);
+            dragShadow.setFitWidth(TILE_W);
+            dragShadow.setFitHeight(TILE_H);
 
+            if (!gameGrid.getChildren().contains(dragShadow))
+                gameGrid.getChildren().add(dragShadow);
+
+            dragging = true;
+            dragShadow.setMouseTransparent(true);
+
+            Point2D local = gameGrid.sceneToLocal(e.getSceneX(), e.getSceneY());
+            dragShadow.setLayoutX(local.getX() - TILE_W / 2);
+            dragShadow.setLayoutY(local.getY() - TILE_H / 2);
+        });
+
+        button.setOnMouseDragged(e -> {
+            if (!dragging) return;
+
+// Convert scene to local coordinates relative to grid
+            Point2D local = gameGrid.sceneToLocal(e.getSceneX(), e.getSceneY());
+            dragShadow.setLayoutX(local.getX() - TILE_W / 2);
+            dragShadow.setLayoutY(local.getY() - TILE_H / 2);
+
+// Highlight range for current tile
+            Tile target = getTileUnderMouseLocal(local.getX(), local.getY());
+            if (target != null && target != dragTargetTile) {
+// clear old highlights
+                for (StackPane pane : highlightedTiles) pane.setBackground(null);
+                highlightedTiles.clear();
+
+                dragTargetTile = target;
+                int range = createEnergySource(selectedType, target).getRange();
+                highlightedTiles = highlightRangeWithShadow(dragTargetTile, range);
+            }
+        });
+
+        button.setOnMouseReleased(e -> {
+            if (dragging && dragTargetTile != null && dragTargetTile.getType() == TileType.EMPTY) {
+// Place energy source on the target tile
+                placeEnergySourceOnTile(dragTargetTile, selectedType);
+            }
+            dragging = false;
+            dragTargetTile = null;
+            gameGrid.getChildren().remove(dragShadow);
+
+// clear highlights
+            for (StackPane pane : highlightedTiles) pane.setBackground(null);
+            highlightedTiles.clear();
+        });
+
+        dragShadow.setEffect(new DropShadow(20, Color.YELLOW));
+    }
     // ====== Setup ======
     public void setupGameBoard() {
         if (gameState == null) {
