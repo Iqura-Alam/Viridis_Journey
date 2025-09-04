@@ -90,7 +90,31 @@ public class GameBoardController {
     @FXML
     public void initialize() {
     	
-       setupGameBoard();
+       // Load images using absolute file paths
+    	gridImg = new Image("file:D:/ViridisJourney2/src/img/GridISO.png"); 
+    	houseImg = new Image("file:D:/ViridisJourney2/src/img/houseISO.png"); 
+    	hospitalImg = new Image("file:D:/ViridisJourney2/src/img/hospitalISO.png");
+    	factoryImg = new Image("file:D:/ViridisJourney2/src/img/FactoryISO.png");
+    	powerImg = new Image("file:D:/ViridisJourney2/src/img/powerISO.png"); 
+    	solarImg = new Image("file:D:/ViridisJourney2/src/img/solarISO.png"); 
+    	windImg = new Image("file:D:/ViridisJourney2/src/img/turbineISO.png");
+    	gasImg = new Image("file:D:/ViridisJourney2/src/img/gasISO.png"); 
+    	coalImg = new Image("file:D:/ViridisJourney2/src/img/coalISO.png");
+    	batteryImg = new Image("file:D:/ViridisJourney2/src/img/batteryISO.png");
+    	schoolImg = new Image("file:D:/ViridisJourney2/src/img/schoolISO.png");
+        
+        
+        solarImage.setImage(solarImg);
+        windImage.setImage(windImg);
+        gasImage.setImage(gasImg);
+        coalImage.setImage(coalImg);
+        batteryImage.setImage(batteryImg);
+        // Set button click actions
+        solarButton.setOnAction(e -> selectedType = EnergySourceType.SOLAR);
+        windButton.setOnAction(e -> selectedType = EnergySourceType.WIND);
+        gasButton.setOnAction(e -> selectedType = EnergySourceType.GAS);
+        coalButton.setOnAction(e -> selectedType = EnergySourceType.COAL);
+        batteryButton.setOnAction(e -> selectedType = EnergySourceType.BATTERY);
 
         solarButton.setDisable(false);
         windButton.setDisable(false);
