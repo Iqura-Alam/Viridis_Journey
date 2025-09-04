@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.SimulationResultsController"
+            style="-fx-background-image: url('/img/VIRIDIS_JOURNEY.jpg');
+                   -fx-background-size: cover;
+                   -fx-background-position: center;">
+
+    <GridPane alignment="CENTER"
+              hgap="15" vgap="15"
+              style="-fx-padding: 30;"
+              AnchorPane.topAnchor="0.0"
+              AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0">
+
+        <!-- Define Pixel Arcade Font -->
+        <fx:define>
+            <Font fx:id="karmaticFont" name="Karmatic Arcade" size="20"/>
+        </fx:define>
+
+        <!-- Produced Energy -->
+        <Label text="Produced Energy" font="$karmaticFont"
+               style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"
+               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label fx:id="producedLabel" text="0" font="$karmaticFont"
+               style="-fx-text-fill: #00ffcc; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"
+               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <!-- Distributed vs Demand -->
+        <Label fx:id="demandLabel" text="Distributed vs Demand" font="$karmaticFont"
+               style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"
+               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <ProgressBar fx:id="demandProgressBar"
+                     style="-fx-accent: #1abc9c; -fx-control-inner-background: rgba(255,255,255,0.2);"
+                     GridPane.columnIndex="0" GridPane.rowIndex="2" prefWidth="350"/>
+
+        <!-- Pollution Change -->
+        <Label text="Pollution" font="$karmaticFont"
+               style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"
+               GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <ProgressBar fx:id="pollutionProgressBar"
+                     style="-fx-accent: #e74c3c; -fx-control-inner-background: rgba(255,255,255,0.2);"
+                     GridPane.columnIndex="0" GridPane.rowIndex="4" prefWidth="350"/>
+
+        <!-- Budget Usage -->
+        <Label text="Budget Remaining" font="$karmaticFont"
+               style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"
+               GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <ProgressBar fx:id="budgetProgressBar"
+                     style="-fx-accent: #f39c12; -fx-control-inner-background: rgba(255,255,255,0.2);"
+                     GridPane.columnIndex="0" GridPane.rowIndex="6" prefWidth="350"/>
+
+        <!-- Triggered Events -->
+        <Label text="Triggered Events" font="$karmaticFont"
+               style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"
+               GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+        <ListView fx:id="triggeredEventsList"
+                  style="-fx-background-color: rgba(0,0,0,0.5); 
+                         -fx-control-inner-background: rgba(0,0,0,0.5); 
+                         -fx-text-fill: white; 
+                         -fx-font-family: 'Karmatic Arcade';"
+                  GridPane.columnIndex="0" GridPane.rowIndex="8" prefHeight="120" prefWidth="350"/>
+
+        <!-- Stars / Day Score -->
+        <Label text="Stars / Day Score:" font="$karmaticFont"
+               style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"
+               GridPane.columnIndex="0" GridPane.rowIndex="9"/>
+        <Label fx:id="starsLabel" font="$karmaticFont"
+               style="-fx-text-fill: yellow; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"
+               GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+
+        <!-- Buttons -->
+        <Button text="Next Day" fx:id="nextDayButton" onAction="#nextDay"
+                style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 18; 
+                       -fx-background-color: #1abc9c; -fx-text-fill: white; 
+                       -fx-padding: 8 16 8 16;"
+                GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+        <Button text="Retry" fx:id="retryButton" onAction="#retry"
+                style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 18; 
+                       -fx-background-color: #3498db; -fx-text-fill: white; 
+                       -fx-padding: 8 16 8 16;"
+                GridPane.columnIndex="1" GridPane.rowIndex="10"/>
+        <Button text="Quit to Home" fx:id="quitButton" onAction="#quitToHome"
+                style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 18; 
+                       -fx-background-color: #e74c3c; -fx-text-fill: white; 
+                       -fx-padding: 8 16 8 16;"
+                GridPane.columnIndex="2" GridPane.rowIndex="10"/>
+
+    </GridPane>
+</AnchorPane>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<GridPane fx:controller="controllers.GameBoardController"
+          xmlns:fx="http://javafx.com/fxml/1"
+          alignment="CENTER"
+          hgap="40" vgap="20"
+          style="-fx-background-image: url('/img/bg2.jpg'); 
+                 -fx-background-size: cover; 
+                 -fx-background-position: center; 
+                 -fx-padding: 30;">
+
+    <!-- Column sizing: Left panel, Middle spacer, Right game board -->
+    <columnConstraints>
+        <ColumnConstraints minWidth="240" prefWidth="240" hgrow="NEVER"/>
+        <ColumnConstraints minWidth="100" prefWidth="100" hgrow="ALWAYS"/>
+        <ColumnConstraints minWidth="620" prefWidth="620" hgrow="NEVER"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints vgrow="ALWAYS"/>
+    </rowConstraints>
+
+    <!-- Load custom font -->
+    <fx:define>
+        <Font fx:id="karmaticFont" name="Karmatic Arcade" size="17"/>
+        <Font fx:id="smallFont" name="Karmatic Arcade" size="16"/>
+    </fx:define>
+
+    <!-- Left Panel (Far Left) -->
+    <VBox fx:id="leftPanel" GridPane.columnIndex="0" spacing="15" alignment="TOP_LEFT"
+      prefWidth="240"
+      style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10;">
+    
+    <Label text="Game Stats" font="$karmaticFont"
+           style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 3, 0, 1, 1);"/>
+    <Separator/>
+    <Label text="Demand:" fx:id="demandLabel" font="$smallFont" style="-fx-text-fill: white;"/>
+    <Label text="Budget:" fx:id="budgetLabel" font="$smallFont" style="-fx-text-fill: white;"/>
+    <Label text="Pollution:" fx:id="pollutionLabel" font="$smallFont" style="-fx-text-fill: white;"/>
+    <Label text="Weather:" fx:id="weatherLabel" font="$smallFont" style="-fx-text-fill: white;"/>
+    <Separator/>
+    
+    <VBox spacing="12">
+        <Button text="Run Simulation" fx:id="runSimulationButton" onAction="#runSimulation"
+                style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 16; -fx-background-color: #1abc9c; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;"/>
+        <Button text="Reset Day" fx:id="resetDayButton" onAction="#resetDay"
+                style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 16; -fx-background-color: #e67e22; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;"/>
+        <Button text="Undo" fx:id="undoButton" onAction="#undoPlacement"
+                style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 16; -fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;"/>
+    </VBox>
+    
+    <Separator/>
+    <Label text="Energy Sources" font="$karmaticFont" style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 3, 0, 1, 1);"/>
+    <Separator/>
+    
+    <VBox fx:id="energyButtonsPanel" spacing="12" prefWidth="200">
+
+        <!-- Solar -->
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <Button text="Solar" fx:id="solarButton"
+                    style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #f1c40f; -fx-text-fill: black; -fx-padding: 8 15 8 15; -fx-background-radius: 8;"
+                    onMouseEntered="#hoverOn" onMouseExited="#hoverOff"/>
+            <Button fx:id="solarImgButton" style="-fx-background-radius: 8; -fx-padding: 5;">
+                <graphic>
+                    <ImageView fx:id="solarImage" fitWidth="40" fitHeight="40" pickOnBounds="true" preserveRatio="true"/>
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Wind -->
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <Button text="Wind" fx:id="windButton"
+                    style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;"
+                    onMouseEntered="#hoverOn" onMouseExited="#hoverOff"/>
+            <Button fx:id="windImgButton" style="-fx-background-radius: 8; -fx-padding: 5;">
+                <graphic>
+                    <ImageView fx:id="windImage" fitWidth="40" fitHeight="40" pickOnBounds="true" preserveRatio="true"/>
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Gas -->
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <Button text="Gas" fx:id="gasButton"
+                    style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;"
+                    onMouseEntered="#hoverOn" onMouseExited="#hoverOff"/>
+            <Button fx:id="gasImgButton" style="-fx-background-radius: 8; -fx-padding: 5;">
+                <graphic>
+                    <ImageView fx:id="gasImage" fitWidth="40" fitHeight="40" pickOnBounds="true" preserveRatio="true"/>
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Coal -->
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <Button text="Coal" fx:id="coalButton"
+                    style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;"
+                    onMouseEntered="#hoverOn" onMouseExited="#hoverOff"/>
+            <Button fx:id="coalImgButton" style="-fx-background-radius: 8; -fx-padding: 5;">
+                <graphic>
+                    <ImageView fx:id="coalImage" fitWidth="40" fitHeight="40" pickOnBounds="true" preserveRatio="true"/>
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Battery -->
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <Button text="Battery" fx:id="batteryButton"
+                    style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #2ecc71; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;"
+                    onMouseEntered="#hoverOn" onMouseExited="#hoverOff"/>
+            <Button fx:id="batteryImgButton" style="-fx-background-radius: 8; -fx-padding: 5;">
+                <graphic>
+                    <ImageView fx:id="batteryImage" fitWidth="40" fitHeight="40" pickOnBounds="true" preserveRatio="true"/>
+                </graphic>
+            </Button>
+        </HBox>
+
+    </VBox>
+</VBox>
+
+
+    <!-- Game Grid (Properly spaced from left panel) -->
+    <StackPane GridPane.columnIndex="2" GridPane.rowIndex="0"
+               alignment="CENTER"
+               prefWidth="800" prefHeight="600"
+               style=" -fx-border-width: 3;">
+        <Pane fx:id="gameGrid" prefWidth="800" prefHeight="600"/>
+    </StackPane>
+
+    <!-- Single message pane (same position as game board) -->
+    <Pane fx:id="messagePane" GridPane.columnIndex="2" GridPane.rowIndex="0"
+          maxWidth="800" maxHeight="600"
+          pickOnBounds="false"/>
+
+</GridPane>
