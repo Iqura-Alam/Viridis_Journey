@@ -1,0 +1,37 @@
+/* VBox background */
+.vbox {
+    -fx-background-image: url("src/img/VIRIDIS_JOURNEY.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-padding: 30;
+}
+
+/* Title label with Karmatic Arcade */
+.label-title {
+    -fx-font-family: "Karmatic Arcade";
+    -fx-font-size: 48px;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.8) , 4,0,2,2 );
+}
+
+/* Buttons */
+.custom-button {
+    -fx-font-family: "Karmatic Arcade";
+    -fx-font-size: 24px;
+    -fx-background-color: #1abc9c;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.custom-button:hover {
+    -fx-background-color: #16a085;
+}
+
+/* Optional pulse animation for title */
+.pulse {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-transition: all 0.6s ease-in-out;
+}
