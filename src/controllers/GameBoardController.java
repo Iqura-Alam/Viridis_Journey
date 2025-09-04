@@ -30,16 +30,24 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Tooltip;
 import javafx.application.Platform;
 import javafx.scene.layout.VBox;
+
 public class GameBoardController {
 
     // ====== FXML ======
-    @FXML private Pane gameGrid; 
-    @FXML private Button solarButton, windButton, gasButton, coalButton, batteryButton;
-    @FXML private Label demandLabel, budgetLabel, pollutionLabel, weatherLabel;
-    @FXML private Pane messagePane;
-    @FXML private VBox leftPanel;
-    @FXML private Button solarImgButton, windImgButton, gasImgButton, coalImgButton, batteryImgButton;
-    @FXML private ImageView solarImage, windImage, gasImage, coalImage, batteryImage;
+    @FXML
+    private Pane gameGrid;
+    @FXML
+    private Button solarButton, windButton, gasButton, coalButton, batteryButton;
+    @FXML
+    private Label demandLabel, budgetLabel, pollutionLabel, weatherLabel;
+    @FXML
+    private Pane messagePane;
+    @FXML
+    private VBox leftPanel;
+    @FXML
+    private Button solarImgButton, windImgButton, gasImgButton, coalImgButton, batteryImgButton;
+    @FXML
+    private ImageView solarImage, windImage, gasImage, coalImage, batteryImage;
     // ====== Board constants ======
     private static final int BOARD_ROWS = 10;
     private static final int BOARD_COLS = 10;
@@ -47,20 +55,20 @@ public class GameBoardController {
     private static final double TILE_H = 64;
     private static final double OFFSET_X = 100 / 2.0;
     private static final double OFFSET_Y = 60;
-    private Weather  currentWeather;
+    private Weather currentWeather;
     // ====== State ======
     private EnergySourceType selectedType;
     private GameState gameState;
 
-    private Image gridImg, houseImg, factoryImg, powerImg,schoolImg,hospitalImg;
+    private Image gridImg, houseImg, factoryImg, powerImg, schoolImg, hospitalImg;
     private Image solarImg, windImg, gasImg, coalImg, batteryImg;
-    
+
     private int maxEnergySources;
     private Map<EnergySourceType, Integer> energySourceLimits;
     private Map<EnergySourceType, Integer> energySourceCounts;
     private Difficulty selectedDifficulty = Difficulty.MEDIUM;
     private final List<Tile> placedTiles = new ArrayList<>();
- // Shadow preview for drag-and-drop
+    // Shadow preview for drag-and-drop
     private ImageView dragShadow = new ImageView();
     private boolean dragging = false;
     private Tile dragTargetTile = null;
@@ -68,20 +76,17 @@ public class GameBoardController {
     // ====== Lifecycle ======
     public void setGameState(GameState gameState) {
 
-    	this.gameState = gameState;
+        this.gameState = gameState;
 
-    	selectedDifficulty = gameState.getCity().getDifficulty();
+        selectedDifficulty = gameState.getCity().getDifficulty();
 
-    	Weather todayWeather = gameState.getCity().getWeather();
+        Weather todayWeather = gameState.getCity().getWeather();
 
-    	updateWeather(todayWeather);
+        updateWeather(todayWeather);
 
+        updateHUD();
 
-
-
-    	updateHUD();
-
-    	}
+    }
 
     @FXML
 
@@ -89,19 +94,19 @@ public class GameBoardController {
 
     @FXML
     public void initialize() {
-    	
-       // Load images using absolute file paths
-    	gridImg = new Image("file:D:/ViridisJourney2/src/img/GridISO.png"); 
-    	houseImg = new Image("file:D:/ViridisJourney2/src/img/houseISO.png"); 
-    	hospitalImg = new Image("file:D:/ViridisJourney2/src/img/hospitalISO.png");
-    	factoryImg = new Image("file:D:/ViridisJourney2/src/img/FactoryISO.png");
-    	powerImg = new Image("file:D:/ViridisJourney2/src/img/powerISO.png"); 
-    	solarImg = new Image("file:D:/ViridisJourney2/src/img/solarISO.png"); 
-    	windImg = new Image("file:D:/ViridisJourney2/src/img/turbineISO.png");
-    	gasImg = new Image("file:D:/ViridisJourney2/src/img/gasISO.png"); 
-    	coalImg = new Image("file:D:/ViridisJourney2/src/img/coalISO.png");
-    	batteryImg = new Image("file:D:/ViridisJourney2/src/img/batteryISO.png");
-    	schoolImg = new Image("file:D:/ViridisJourney2/src/img/schoolISO.png");
+
+        // Load images using absolute file paths
+        gridImg = new Image("file:D:/ViridisJourney2/src/img/GridISO.png");
+        houseImg = new Image("file:D:/ViridisJourney2/src/img/houseISO.png");
+        hospitalImg = new Image("file:D:/ViridisJourney2/src/img/hospitalISO.png");
+        factoryImg = new Image("file:D:/ViridisJourney2/src/img/FactoryISO.png");
+        powerImg = new Image("file:D:/ViridisJourney2/src/img/powerISO.png");
+        solarImg = new Image("file:D:/ViridisJourney2/src/img/solarISO.png");
+        windImg = new Image("file:D:/ViridisJourney2/src/img/turbineISO.png");
+        gasImg = new Image("file:D:/ViridisJourney2/src/img/gasISO.png");
+        coalImg = new Image("file:D:/ViridisJourney2/src/img/coalISO.png");
+        batteryImg = new Image("file:D:/ViridisJourney2/src/img/batteryISO.png");
+        schoolImg = new Image("file:D:/ViridisJourney2/src/img/schoolISO.png");
 
         // Setup drag functionality
         setupDragForButton(solarImgButton, EnergySourceType.SOLAR, solarImg);
@@ -111,7 +116,7 @@ public class GameBoardController {
         setupDragForButton(batteryImgButton, EnergySourceType.BATTERY, batteryImg);
 
         // Add drop shadow to game grid
-        gameGrid.setEffect(new DropShadow(20, Color.rgb(0,0,0,0.25)));
+        gameGrid.setEffect(new DropShadow(20, Color.rgb(0, 0, 0, 0.25)));
         leftPanel.setPickOnBounds(true);
         double btnSize = 50; // match with text button height
         setupImageButton(solarImgButton, solarImg, btnSize, btnSize, "Cost: 500\nOutput: 50\nPollution: 0");
@@ -144,6 +149,7 @@ public class GameBoardController {
         coalButton.setDisable(false);
         batteryButton.setDisable(false);
     }
+
     public void setGameState(GameState gameState) {
 
         this.gameState = gameState;
@@ -160,47 +166,61 @@ public class GameBoardController {
 
     @FXML
     private List<StackPane> highlightedTiles = new ArrayList<>();
+
     @FXML
     private void hoverOn(MouseEvent event) {
         Button btn = (Button) event.getSource();
         switch (btn.getId()) {
-            case "solarButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #f39c12; -fx-text-fill: black; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
-            case "windButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #2980b9; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
-            case "gasButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
-            case "coalButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #606060; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
-            case "batteryButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "solarButton" -> btn.setStyle(
+                    "-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #f39c12; -fx-text-fill: black; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "windButton" -> btn.setStyle(
+                    "-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #2980b9; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "gasButton" -> btn.setStyle(
+                    "-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "coalButton" -> btn.setStyle(
+                    "-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #606060; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "batteryButton" -> btn.setStyle(
+                    "-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
         }
     }
+
     @FXML
     private void hoverOff(MouseEvent event) {
         Button btn = (Button) event.getSource();
         switch (btn.getId()) {
-            case "solarButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #f1c40f; -fx-text-fill: black; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
-            case "windButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
-            case "gasButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
-            case "coalButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
-            case "batteryButton" -> btn.setStyle("-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #2ecc71; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "solarButton" -> btn.setStyle(
+                    "-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #f1c40f; -fx-text-fill: black; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "windButton" -> btn.setStyle(
+                    "-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "gasButton" -> btn.setStyle(
+                    "-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "coalButton" -> btn.setStyle(
+                    "-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
+            case "batteryButton" -> btn.setStyle(
+                    "-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 14; -fx-background-color: #2ecc71; -fx-text-fill: white; -fx-padding: 8 15 8 15; -fx-background-radius: 8;");
         }
     }
+
     private void setupImageButton(Button button, Image img, double width, double height, String tooltipText) {
-// ImageView for the button
+        // ImageView for the button
         ImageView icon = new ImageView(img);
         icon.setFitWidth(width);
         icon.setFitHeight(height);
         button.setGraphic(icon);
 
-// Remove background & border
+        // Remove background & border
         button.setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-border-color: transparent;");
 
-// Hover effect
+        // Hover effect
         button.setOnMouseEntered(e -> icon.setOpacity(0.7));
         button.setOnMouseExited(e -> icon.setOpacity(1.0));
 
-// Tooltip
+        // Tooltip
         Tooltip tooltip = new Tooltip(tooltipText);
         tooltip.setStyle("-fx-font-size: 12px;");
         button.setTooltip(tooltip);
     }
+
     private void setupDragForButton(Button button, EnergySourceType type, Image img) {
         button.setOnMousePressed(e -> {
             selectedType = type;
@@ -221,18 +241,20 @@ public class GameBoardController {
         });
 
         button.setOnMouseDragged(e -> {
-            if (!dragging) return;
+            if (!dragging)
+                return;
 
-// Convert scene to local coordinates relative to grid
+            // Convert scene to local coordinates relative to grid
             Point2D local = gameGrid.sceneToLocal(e.getSceneX(), e.getSceneY());
             dragShadow.setLayoutX(local.getX() - TILE_W / 2);
             dragShadow.setLayoutY(local.getY() - TILE_H / 2);
 
-// Highlight range for current tile
+            // Highlight range for current tile
             Tile target = getTileUnderMouseLocal(local.getX(), local.getY());
             if (target != null && target != dragTargetTile) {
-// clear old highlights
-                for (StackPane pane : highlightedTiles) pane.setBackground(null);
+                // clear old highlights
+                for (StackPane pane : highlightedTiles)
+                    pane.setBackground(null);
                 highlightedTiles.clear();
 
                 dragTargetTile = target;
@@ -243,22 +265,24 @@ public class GameBoardController {
 
         button.setOnMouseReleased(e -> {
             if (dragging && dragTargetTile != null && dragTargetTile.getType() == TileType.EMPTY) {
-// Place energy source on the target tile
+                // Place energy source on the target tile
                 placeEnergySourceOnTile(dragTargetTile, selectedType);
             }
             dragging = false;
             dragTargetTile = null;
             gameGrid.getChildren().remove(dragShadow);
 
-// clear highlights
-            for (StackPane pane : highlightedTiles) pane.setBackground(null);
+            // clear highlights
+            for (StackPane pane : highlightedTiles)
+                pane.setBackground(null);
             highlightedTiles.clear();
         });
 
         dragShadow.setEffect(new DropShadow(20, Color.YELLOW));
     }
+
     // Highlight tiles in a plus shape (up, down, left, right) within range
-// Highlight tiles in a square (includes diagonals) within range
+    // Highlight tiles in a square (includes diagonals) within range
     private List<StackPane> highlightRangeWithShadow(Tile centerTile, int range) {
         List<StackPane> highlighted = new ArrayList<>();
 
@@ -268,7 +292,7 @@ public class GameBoardController {
         for (int r = row - range; r <= row + range; r++) {
             for (int c = col - range; c <= col + range; c++) {
                 if (r >= 0 && r < BOARD_ROWS && c >= 0 && c < BOARD_COLS) {
-// Chebyshev distance includes diagonals
+                    // Chebyshev distance includes diagonals
                     int chebyshevDist = Math.max(Math.abs(r - row), Math.abs(c - col));
                     if (chebyshevDist <= range) {
                         addHighlight(r, c, highlighted);
@@ -280,7 +304,6 @@ public class GameBoardController {
         return highlighted;
     }
 
-
     // Helper: get the actual isometric tile node and apply the shadow
     private void addHighlight(int r, int c, List<StackPane> highlighted) {
         StackPane tileNode = getTileNode2(r, c); // must fetch by row/col
@@ -288,8 +311,7 @@ public class GameBoardController {
             tileNode.setBackground(new Background(new BackgroundFill(
                     Color.rgb(255, 255, 0, 0.6), // translucent yellow overlay
                     CornerRadii.EMPTY,
-                    Insets.EMPTY
-            )));
+                    Insets.EMPTY)));
             highlighted.add(tileNode);
         }
     }
@@ -298,7 +320,7 @@ public class GameBoardController {
     private StackPane getTileNode2(int row, int col) {
         for (Node node : gameGrid.getChildren()) {
             if (node instanceof StackPane tilePane) {
-// check row/col via userData
+                // check row/col via userData
                 Object data = tilePane.getUserData();
                 if (data instanceof int[] pos) {
                     if (pos[0] == row && pos[1] == col) {
@@ -353,8 +375,6 @@ public class GameBoardController {
         updateHUD();
     }
 
-
-
     // ====== Limits ======
     private void setEnergySourceLimit() {
         energySourceCounts = new HashMap<>();
@@ -363,37 +383,35 @@ public class GameBoardController {
                 maxEnergySources = 10;
                 gameState.getCity().setBudget(9000);
                 energySourceLimits = Map.of(
-                    EnergySourceType.SOLAR, 4,
-                    EnergySourceType.WIND, 4,
-                    EnergySourceType.GAS, 2,
-                    EnergySourceType.COAL,1,
-                    EnergySourceType.BATTERY, 2
-                );
+                        EnergySourceType.SOLAR, 4,
+                        EnergySourceType.WIND, 4,
+                        EnergySourceType.GAS, 2,
+                        EnergySourceType.COAL, 1,
+                        EnergySourceType.BATTERY, 2);
             }
             case MEDIUM -> {
                 maxEnergySources = 7;
                 gameState.getCity().setBudget(4500);
                 energySourceLimits = Map.of(
-                    EnergySourceType.SOLAR, 2,
-                    EnergySourceType.WIND, 3,
-                    EnergySourceType.GAS, 1,
-                    EnergySourceType.COAL, 1,
-                    EnergySourceType.BATTERY, 1
-                );
+                        EnergySourceType.SOLAR, 2,
+                        EnergySourceType.WIND, 3,
+                        EnergySourceType.GAS, 1,
+                        EnergySourceType.COAL, 1,
+                        EnergySourceType.BATTERY, 1);
             }
             case HARD -> {
                 maxEnergySources = 5;
                 gameState.getCity().setBudget(7000);
                 energySourceLimits = Map.of(
-                    EnergySourceType.SOLAR, 6,
-                    EnergySourceType.WIND, 4,
-                    EnergySourceType.GAS, 2,
-                    EnergySourceType.COAL, 2,
-                    EnergySourceType.BATTERY, 2
-                );
+                        EnergySourceType.SOLAR, 6,
+                        EnergySourceType.WIND, 4,
+                        EnergySourceType.GAS, 2,
+                        EnergySourceType.COAL, 2,
+                        EnergySourceType.BATTERY, 2);
             }
         }
-        for (EnergySourceType t : EnergySourceType.values()) energySourceCounts.put(t, 0);
+        for (EnergySourceType t : EnergySourceType.values())
+            energySourceCounts.put(t, 0);
     }
 
     private void placeRandomBuildings(int numberOfBuildings) {
@@ -401,7 +419,8 @@ public class GameBoardController {
         int placedCount = 0;
 
         // Array to store building types, to ensure at least one of each type is placed
-        BuildingType[] buildingTypes = {BuildingType.HOUSE, BuildingType.SCHOOL, BuildingType.FACTORY, BuildingType.HOSPITAL};
+        BuildingType[] buildingTypes = { BuildingType.HOUSE, BuildingType.SCHOOL, BuildingType.FACTORY,
+                BuildingType.HOSPITAL };
         Set<BuildingType> placedTypes = new HashSet<>();
 
         // Ensure one of each building type is placed first
@@ -416,7 +435,8 @@ public class GameBoardController {
                     tile.setType(TileType.CONSUMER);
                     tile.setBuildingType(type);
 
-                    // Set the baseDemand, priority, and pollutionSensitivity based on the building type
+                    // Set the baseDemand, priority, and pollutionSensitivity based on the building
+                    // type
                     int baseDemand = switch (type) {
                         case HOUSE -> 15;
                         case SCHOOL -> 25;
@@ -445,13 +465,14 @@ public class GameBoardController {
                     gameState.getCity().setBaseDemand(gameState.getCity().getBaseDemand() + baseDemand);
                     updateTileUI(row, col);
                     placedCount++;
-                    placedTypes.add(type);  // Mark this building type as placed
-                    break;  // Exit the loop once the building type is placed
+                    placedTypes.add(type); // Mark this building type as placed
+                    break; // Exit the loop once the building type is placed
                 }
             }
         }
 
-        // After placing one of each building type, randomly place the remaining buildings
+        // After placing one of each building type, randomly place the remaining
+        // buildings
         while (placedCount < numberOfBuildings) {
             int row = rand.nextInt(BOARD_ROWS);
             int col = rand.nextInt(BOARD_COLS);
@@ -462,7 +483,8 @@ public class GameBoardController {
                 BuildingType type = randomBuildingType();
                 tile.setBuildingType(type);
 
-                // Set the baseDemand, priority, and pollutionSensitivity based on the building type
+                // Set the baseDemand, priority, and pollutionSensitivity based on the building
+                // type
                 int baseDemand = switch (type) {
                     case HOUSE -> 15;
                     case SCHOOL -> 25;
@@ -496,12 +518,13 @@ public class GameBoardController {
     }
 
     private BuildingType randomBuildingType() {
-        BuildingType[] types = {BuildingType.HOUSE, BuildingType.SCHOOL, BuildingType.FACTORY, BuildingType.HOSPITAL};
+        BuildingType[] types = { BuildingType.HOUSE, BuildingType.SCHOOL, BuildingType.FACTORY, BuildingType.HOSPITAL };
         return types[new Random().nextInt(types.length)];
     }
 
     private void handleTileClick(int row, int col) {
-        if (selectedType == null) return;
+        if (selectedType == null)
+            return;
         Tile tile = gameState.getGrid()[row][col];
         if (tile.getType() != TileType.EMPTY) {
             showMessage("Cannot place here! Tile already occupied.");
@@ -516,7 +539,7 @@ public class GameBoardController {
             return;
         }
 
-        EnergySource source = createEnergySource(type,tile);
+        EnergySource source = createEnergySource(type, tile);
         if (gameState.getCity().getBudget() < source.getCost()) {
             showMessage("Not enough budget!");
             return;
@@ -535,8 +558,6 @@ public class GameBoardController {
         updateHUD();
     }
 
-
-
     private EnergySource createEnergySource(EnergySourceType type, Tile tile) {
         return switch (type) {
             case SOLAR -> new SolarEnergySource("solar", 700, 30, 1, 0, 0.95, 0.8, 1.2, 12, tile);
@@ -548,10 +569,10 @@ public class GameBoardController {
         };
     }
 
-
     private Node getTileNode(int row, int col) {
         int index = row * BOARD_COLS + col;
-        if (index < 0 || index >= gameGrid.getChildren().size()) return null;
+        if (index < 0 || index >= gameGrid.getChildren().size())
+            return null;
         return gameGrid.getChildren().get(index);
     }
 
@@ -561,13 +582,14 @@ public class GameBoardController {
         budgetLabel.setText("Budget: " + gameState.getCity().getBudget());
         pollutionLabel.setText("Pollution: " + gameState.getCity().getPollution());
     }
+
     public void updateWeather(Weather weather) {
 
-    	this.currentWeather = weather;
+        this.currentWeather = weather;
 
-    	weatherLabel.setText("Weather: " + weather.name());
+        weatherLabel.setText("Weather: " + weather.name());
 
-    	}
+    }
 
     @FXML
     private void undoPlacement() {
@@ -585,39 +607,44 @@ public class GameBoardController {
 
                 updateTileUI(lastTile.getRow(), lastTile.getCol());
                 updateHUD();
-            } else showMessage("No energy source to undo.");
-        } else showMessage("No placements to undo.");
+            } else
+                showMessage("No energy source to undo.");
+        } else
+            showMessage("No placements to undo.");
     }
-     // ====== Reset / Undo / Simulation ======
+
+    // ====== Reset / Undo / Simulation ======
     @FXML
     private void resetDay() {
-    	  int budget = 0;
-          switch (selectedDifficulty) {
-              case EASY:
-                  budget = 9000;
-                  break;
-              case MEDIUM:
-                  budget = 4500;
-                  break;
-              case HARD:
-                  budget = 7000;
-                  break;
-          }
+        int budget = 0;
+        switch (selectedDifficulty) {
+            case EASY:
+                budget = 9000;
+                break;
+            case MEDIUM:
+                budget = 4500;
+                break;
+            case HARD:
+                budget = 7000;
+                break;
+        }
 
-          // Set the budget and reset pollution
-          gameState.getCity().setBudget(budget);
+        // Set the budget and reset pollution
+        gameState.getCity().setBudget(budget);
         gameState.getCity().setPollution(0);
 
         for (int r = 0; r < BOARD_ROWS; r++)
             for (int c = 0; c < BOARD_COLS; c++) {
                 Tile t = gameState.getGrid()[r][c];
                 t.setEnergySource(null);
-                if (t.getType() == TileType.SOURCE_REF) t.setType(TileType.EMPTY);
+                if (t.getType() == TileType.SOURCE_REF)
+                    t.setType(TileType.EMPTY);
                 updateTileUI(r, c);
             }
 
         placedTiles.clear();
-        for (EnergySourceType t : EnergySourceType.values()) energySourceCounts.put(t, 0);
+        for (EnergySourceType t : EnergySourceType.values())
+            energySourceCounts.put(t, 0);
 
         maxEnergySources = switch (selectedDifficulty) {
             case EASY -> 10;
@@ -628,9 +655,7 @@ public class GameBoardController {
         updateHUD();
     }
 
-
-
- @FXML
+    @FXML
     private void runSimulation() {
         disablePlacementButtons();
         SimulationEngine engine = new SimulationEngine();
@@ -638,8 +663,37 @@ public class GameBoardController {
         showSimulationResults(report);
     }
 
+    // ====== UI Updates ======
+    private void updateTileUI(int row, int col) {
+        Node node = getTileNode(row, col);
+        if (!(node instanceof StackPane tilePane))
+            return;
 
- private void showSimulationResults(ReportModel report) {
+        ImageView imgView = (ImageView) tilePane.getChildren().get(0);
+        Tile tile = gameState.getGrid()[row][col];
+
+        if (tile.getType() == TileType.EMPTY)
+            imgView.setImage(gridImg);
+        else if (tile.getType() == TileType.CONSUMER) {
+            switch (tile.getBuildingType()) {
+                case HOUSE -> imgView.setImage(houseImg);
+                case FACTORY -> imgView.setImage(factoryImg);
+                case SCHOOL -> imgView.setImage(schoolImg);
+                case HOSPITAL -> imgView.setImage(hospitalImg);
+                // default -> imgView.setImage(powerImg);
+            }
+        } else if (tile.getType() == TileType.SOURCE_REF && tile.getEnergySource() != null) {
+            switch (tile.getEnergySource().getType()) {
+                case SOLAR -> imgView.setImage(solarImg);
+                case WIND -> imgView.setImage(windImg);
+                case GAS -> imgView.setImage(gasImg);
+                case COAL -> imgView.setImage(coalImg);
+                case BATTERY -> imgView.setImage(batteryImg);
+            }
+        }
+    }
+
+    private void showSimulationResults(ReportModel report) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SimulationResults.fxml"));
             Parent root = loader.load();
@@ -648,13 +702,12 @@ public class GameBoardController {
             Stage stage = (Stage) gameGrid.getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setFullScreen(true); 
+            stage.setFullScreen(true);
             stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
 }
