@@ -4,6 +4,7 @@ public class Tile {
 
     private int row, col;
     private TileType type; // Tile can be empty, energy source, or consumer (building)
+    private BuildingType buildingType; // If the tile has a building, this holds the type of building
     private EnergySource energySource; // If the tile has an energy source, it will be stored here
 
     // Constructor
@@ -22,6 +23,14 @@ public class Tile {
         this.type = type;
     }
 
+    // Getter and Setter for BuildingType
+    public BuildingType getBuildingType() {
+        return buildingType;
+    }
+
+    public void setBuildingType(BuildingType buildingType) {
+        this.buildingType = buildingType;
+    }
 
     // Getter and Setter for Energy Source
     public EnergySource getEnergySource() {
