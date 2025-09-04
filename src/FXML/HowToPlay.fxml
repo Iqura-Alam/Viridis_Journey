@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.HowToPlayController"
+            fitToWidth="true"
+            fitToHeight="true"
+            style="-fx-background-color: transparent;">
+
+    <content>
+        <VBox alignment="TOP_CENTER" spacing="20"
+              style="-fx-background-color: rgba(34, 49, 63, 0.85);
+                     -fx-padding: 50;
+                     -fx-background-image: url('/img/VIRIDIS_JOURNEY.png');
+                     -fx-background-size: cover;
+                     -fx-background-position: center;
+                     -fx-background-blend-mode: multiply;">
+
+            <fx:define>
+                <Font fx:id="titleFont" name="Karmatic Arcade" size="48"/>
+                <Font fx:id="headingFont" name="Karmatic Arcade" size="28"/>
+                <Font fx:id="bodyFont" name="Karmatic Arcade" size="18"/>
+            </fx:define>
+
+            <!-- Title -->
+            <Label text="HOW TO PLAY" font="$titleFont"
+                   style="-fx-text-fill: #f1c40f; -fx-effect: dropshadow(gaussian, black, 6, 0, 3, 3);"/>
+
+            <!-- Step 1: Place Energy Sources -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="1. Place Energy Sources" font="$headingFont" style="-fx-text-fill: #1abc9c; -fx-underline: true;"/>
+                <Label text="Select and place solar panels, wind turbines, and batteries on the city grid. Each source has a specific output and range. Make sure they cover important buildings like hospitals and schools first."
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Step 2: Manage Energy Distribution -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="2. Manage Energy Distribution" font="$headingFont" style="-fx-text-fill: #1abc9c; -fx-underline: true;"/>
+                <Label text="Energy from sources is distributed to buildings based on priority. Hospitals and schools get top priority in Medium mode. In Hard mode, all buildings compete for energy. Balance your placement to meet demand efficiently."
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Step 3: Use Batteries -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="3. Use Batteries" font="$headingFont" style="-fx-text-fill: #1abc9c; -fx-underline: true;"/>
+                <Label text="Batteries store surplus energy when production exceeds demand and discharge it during deficits. Proper battery management can prevent blackouts and maintain energy supply for critical buildings."
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Step 4: Monitor Pollution -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="4. Monitor Pollution" font="$headingFont" style="-fx-text-fill: #1abc9c; -fx-underline: true;"/>
+                <Label text="Non-battery energy sources produce pollution. Keep an eye on pollution levels to avoid health crises in the city. High pollution reduces your score and may trigger negative events."
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Step 5: Achieve Stars -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="5. Achieve Stars" font="$headingFont" style="-fx-text-fill: #1abc9c; -fx-underline: true;"/>
+                <Label text="Stars are awarded based on energy coverage and pollution control. Full demand met and low pollution earn 3 stars. Partial success earns 1 or 2 stars depending on performance."
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Step 6: Check Reports -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="6. Check Reports" font="$headingFont" style="-fx-text-fill: #1abc9c; -fx-underline: true;"/>
+                <Label text="After each simulation, check the report to see energy produced, distributed, pollution change, and score. Use this information to improve strategy in future rounds."
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Back Button -->
+            <Button fx:id="backButton" text="Back" onAction="#goBack"
+                    style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 24;
+                           -fx-background-color: linear-gradient(to bottom, #e74c3c, #c0392b);
+                           -fx-text-fill: white; -fx-padding: 15 50; -fx-background-radius: 15;
+                           -fx-effect: dropshadow(gaussian, black, 6, 0, 2, 2);
+                           -fx-cursor: hand;"/>
+        </VBox>
+    </content>
+</ScrollPane>

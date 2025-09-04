@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.DaySetupController"
+      fx:id="rootPane"
+      alignment="CENTER"
+      spacing="25"
+      style="-fx-padding: 40; -fx-background-size: cover; -fx-background-position: center;">
+
+    <!-- Load custom font -->
+    <fx:define>
+        <Font fx:id="karmaticFont" name="Karmatic Arcade" size="36"/>
+    </fx:define>
+
+    <!-- Screen Title -->
+    <Label text="DAY #1" font="$karmaticFont"
+           style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"/>
+
+        <!-- Opaque overlay box for weather + stats -->
+    <VBox alignment="CENTER" spacing="15"
+          maxWidth="600"
+          style="-fx-background-color: rgba(0,0,0,0.6); 
+                 -fx-padding: 20; 
+                 -fx-background-radius: 15;">
+        <Label fx:id="energyDemandLabel" text="Energy Demand: 50 MW"
+               style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 20; -fx-text-fill: white;"/>
+        <Label fx:id="budgetLabel" text="Budget: $1000"
+               style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 20; -fx-text-fill: white;"/>
+        <Label fx:id="weatherLabel" text="Weather: Sunny"
+               style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 20; -fx-text-fill: white;"/>
+    </VBox>
+
+
+    <!-- Start Day Button -->
+    <Button fx:id="startDayButton" text="Start Day" onAction="#goToGameBoard"
+            style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 24; -fx-background-color: #1abc9c; -fx-text-fill: white; -fx-padding: 10 30 10 30;"/>
+
+</VBox>

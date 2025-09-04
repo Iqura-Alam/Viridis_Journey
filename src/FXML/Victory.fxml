@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.VictoryController"
+      alignment="CENTER" spacing="20"
+      style="-fx-background-image: url('/img/VIRIDIS_JOURNEY.jpg'); -fx-background-size: cover; -fx-background-position: center; -fx-padding: 30;">
+
+    <!-- Load custom font -->
+    <fx:define>
+        <Font fx:id="karmaticFont" name="Karmatic Arcade" size="48"/>
+        <Font fx:id="buttonFont" name="Karmatic Arcade" size="24"/>
+    </fx:define>
+
+    <!-- Victory Title -->
+    <Label text="🏆 Victory!" font="$karmaticFont"
+           style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"/>
+
+    <!-- Summary -->
+    <Label fx:id="summaryLabel" font="$buttonFont"
+           style="-fx-text-fill: white;"/>
+
+    <!-- Buttons -->
+    <Button text="Play Again" onAction="#playAgain" font="$buttonFont"
+            style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-padding: 10 20 10 20; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"/>
+    <Button text="Quit to Home" onAction="#quitToHome" font="$buttonFont"
+            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 10 20 10 20; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"/>
+</VBox>

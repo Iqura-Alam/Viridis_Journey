@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.ScrollPane?>
+
+<ScrollPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.AboutController"
+            fitToWidth="true"
+            fitToHeight="true"
+            style="-fx-background-color: transparent;">
+
+    <content>
+        <VBox alignment="TOP_CENTER" spacing="30"
+              style="-fx-background-color: rgba(142, 68, 173, 0.8);
+                     -fx-padding: 50;
+                     -fx-background-image: url('/img/VIRIDIS_JOURNEY.png');
+                     -fx-background-size: cover;
+                     -fx-background-position: center;
+                     -fx-background-blend-mode: multiply;">
+
+            <fx:define>
+                <Font fx:id="titleFont" name="Karmatic Arcade" size="48"/>
+                <Font fx:id="headingFont" name="Karmatic Arcade" size="28"/>
+                <Font fx:id="bodyFont" name="Karmatic Arcade" size="18"/>
+            </fx:define>
+
+            <!-- Title -->
+            <Label text="Viridis Journey" font="$titleFont"
+                   style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 6, 0, 3, 3);"/>
+
+            <!-- Game Description -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.4); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="About the Game" font="$headingFont"
+                       style="-fx-text-fill: #f1c40f; -fx-underline: true;"/>
+                <Label text="Viridis Journey is an engaging clean energy puzzle game where players design and manage a city’s energy infrastructure. Place solar panels, wind turbines, and batteries to meet the city’s power demands while balancing budget, pollution, and efficiency."
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Key Features -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.4); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="Key Features" font="$headingFont"
+                       style="-fx-text-fill: #f1c40f; -fx-underline: true;"/>
+                <Label text="• Build and manage sustainable energy sources.\n• Monitor and optimize city pollution, budget, and energy output.\n• Unlock advanced energy solutions and upgrades.\n• Face dynamic events and challenges.\n• Explore creative solutions to power a thriving city responsibly."
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Acknowledgments -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.4); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="Acknowledgments" font="$headingFont"
+                       style="-fx-text-fill: #f1c40f; -fx-underline: true;"/>
+                <Label text="• Developed using JavaFX 24.0.1\n• Graphics created using open-source resources and in-house assets\n• Special thanks to Eclipse IDE for project management"
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Version Info -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.4); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="Version Info" font="$headingFont"
+                       style="-fx-text-fill: #f1c40f; -fx-underline: true;"/>
+                <Label text="Version: 1.0.0\nPlanned Release: September 2025"
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Story -->
+            <VBox spacing="10" maxWidth="700" style="-fx-background-color: rgba(0,0,0,0.4); -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="Story" font="$headingFont"
+                       style="-fx-text-fill: #f1c40f; -fx-underline: true;"/>
+                <Label text="The city is growing, and energy demands are rising. As a visionary energy planner, your mission is to guide the city toward a clean and sustainable future, balancing resources, innovation, and environmental impact."
+                       wrapText="true" font="$bodyFont" style="-fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Back Button -->
+            <Button fx:id="backButton" text="Back" onAction="#goBack"
+                    style="-fx-font-family: 'Karmatic Arcade'; -fx-font-size: 24;
+                           -fx-background-color: linear-gradient(to bottom, #e74c3c, #c0392b);
+                           -fx-text-fill: white; -fx-padding: 15 50; -fx-background-radius: 15;
+                           -fx-effect: dropshadow(gaussian, black, 6, 0, 2, 2);
+                           -fx-cursor: hand;"/>
+        </VBox>
+    </content>
+</ScrollPane>
+

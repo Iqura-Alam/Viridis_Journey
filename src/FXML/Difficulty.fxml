@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.DifficultyController"
+      alignment="CENTER"
+      spacing="30"
+      style="-fx-background-color: #34495e; -fx-padding: 50; -fx-background-image: url('/img/VIRIDIS_JOURNEY.jpg'); -fx-background-size: cover; -fx-background-position: center;">
+
+    <!-- Load custom font -->
+    <fx:define>
+        <Font fx:id="karmaticFont" name="Karmatic Arcade" size="36"/>
+    </fx:define>
+
+    <!-- Difficulty Title -->
+    <Label text="SELECT DIFFICULTY" font="$karmaticFont" 
+           style="-fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"/>
+
+    <!-- Difficulty Buttons -->
+   <Button fx:id="easyButton" text="Easy" onAction="#goToDaySetup"
+        style="-fx-font-family: 'Karmatic Arcade'; 
+               -fx-font-size: 24; 
+               -fx-background-color: #1abc9c; 
+               -fx-text-fill: white; 
+               -fx-padding: 10 30 10 30;
+               -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"/>
+
+<Button fx:id="mediumButton" text="Medium" onAction="#goToDaySetup"
+        style="-fx-font-family: 'Karmatic Arcade'; 
+               -fx-font-size: 24; 
+               -fx-background-color: #3498db; 
+               -fx-text-fill: white; 
+               -fx-padding: 10 30 10 30;
+               -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"/>
+
+<Button fx:id="hardButton" text="Hard" onAction="#goToDaySetup"
+        style="-fx-font-family: 'Karmatic Arcade'; 
+               -fx-font-size: 24; 
+               -fx-background-color: #e74c3c; 
+               -fx-text-fill: white; 
+               -fx-padding: 10 30 10 30;
+               -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"/>
+
+
+
+    <!-- Back Button -->
+    <Button text="Back" onAction="#goBack"
+            style="-fx-font-family: 'Karmatic Arcade'; 
+                   -fx-font-size: 24; 
+                   -fx-background-color: #7f8c8d; 
+                   -fx-text-fill: white; 
+                   -fx-padding: 10 30 10 30;
+                   -fx-effect: dropshadow(gaussian, black, 4, 0, 2, 2);"/>
+                   
+
+</VBox>
