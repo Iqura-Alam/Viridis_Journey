@@ -16,7 +16,7 @@ public class GameManager {
     private Stage primaryStage;
     private GameState gameState;
     
-    // 🔹 Add MediaPlayer for background music
+    
     private MediaPlayer backgroundMusic;
 
     private GameManager() {}
@@ -31,9 +31,9 @@ public class GameManager {
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
-        // Make primary stage full screen at start
+
         this.primaryStage.setFullScreen(true);
-        this.primaryStage.setFullScreenExitHint(""); // disable default ESC hint
+        this.primaryStage.setFullScreenExitHint(""); 
         this.primaryStage.setMaximized(true);
     }
 
@@ -62,8 +62,6 @@ public class GameManager {
                 boardController.setGameState(gameState);
                 boardController.setupGameBoard();  // Initialize grid after gameState is set
             }
-
-            // Get screen dimensions for scaling
             double screenWidth = Screen.getPrimary().getBounds().getWidth();
             double screenHeight = Screen.getPrimary().getBounds().getHeight();
 
