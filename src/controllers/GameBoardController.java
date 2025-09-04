@@ -257,6 +257,75 @@ public class GameBoardController {
 
         dragShadow.setEffect(new DropShadow(20, Color.YELLOW));
     }
+    // Highlight tiles in a plus shape (up, down, left, right) within range
+// Highlight tiles in a square (includes diagonals) within range
+    private List<StackPane> highlightRangeWithShadow(Tile centerTile, int range) {
+        List<StackPane> highlighted = new ArrayList<>();
+
+        int row = centerTile.getRow();
+        int col = centerTile.getCol();
+
+        for (int r = row - range; r <= row + range; r++) {
+            for (int c = col - range; c <= col + range; c++) {
+                if (r >= 0 && r < BOARD_ROWS && c >= 0 && c < BOARD_COLS) {
+// Chebyshev distance includes diagonals
+                    int chebyshevDist = Math.max(Math.abs(r - row), Math.abs(c - col));
+                    if (chebyshevDist <= range) {
+                        addHighlight(r, c, highlighted);
+                    }
+                }
+            }
+        }
+
+        return highlighted;
+    }
+
+
+    // Helper: get the actual isometric tile node and apply the shadow
+    private void addHighlight(int r, int c, List<StackPane> highlighted) {
+        StackPane tileNode = getTileNode2(r, c); // must fetch by row/col
+        if (tileNode != null) {
+            tileNode.setBackground(new Background(new BackgroundFill(
+                    Color.rgb(255, 255, 0, 0.6), // translucent yellow overlay
+                    CornerRadii.EMPTY,
+                    Insets.EMPTY
+            )));
+            highlighted.add(tileNode);
+        }
+    }
+
+    // Utility: find the tile node for a row/col
+    private StackPane getTileNode2(int row, int col) {
+        for (Node node : gameGrid.getChildren()) {
+            if (node instanceof StackPane tilePane) {
+// check row/col via userData
+                Object data = tilePane.getUserData();
+                if (data instanceof int[] pos) {
+                    if (pos[0] == row && pos[1] == col) {
+                        return tilePane;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private Tile getTileUnderMouseLocal(double localX, double localY) {
+        for (int r = 0; r < BOARD_ROWS; r++) {
+            for (int c = 0; c < BOARD_COLS; c++) {
+                StackPane tilePane = (StackPane) getTileNode(r, c);
+                if (tilePane != null) {
+                    double x = tilePane.getLayoutX();
+                    double y = tilePane.getLayoutY();
+                    if (localX >= x && localX <= x + TILE_W &&
+                            localY >= y && localY <= y + TILE_H)
+                        return gameState.getGrid()[r][c];
+                }
+            }
+        }
+        return null;
+    }
+
     // ====== Setup ======
     public void setupGameBoard() {
         if (gameState == null) {
