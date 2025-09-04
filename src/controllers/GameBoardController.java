@@ -129,6 +129,47 @@ public class GameBoardController {
 
 
 
+    // ====== Limits ======
+    private void setEnergySourceLimit() {
+        energySourceCounts = new HashMap<>();
+        switch (selectedDifficulty) {
+            case EASY -> {
+                maxEnergySources = 10;
+                gameState.getCity().setBudget(9000);
+                energySourceLimits = Map.of(
+                    EnergySourceType.SOLAR, 4,
+                    EnergySourceType.WIND, 4,
+                    EnergySourceType.GAS, 2,
+                    EnergySourceType.COAL,1,
+                    EnergySourceType.BATTERY, 2
+                );
+            }
+            case MEDIUM -> {
+                maxEnergySources = 7;
+                gameState.getCity().setBudget(4500);
+                energySourceLimits = Map.of(
+                    EnergySourceType.SOLAR, 2,
+                    EnergySourceType.WIND, 3,
+                    EnergySourceType.GAS, 1,
+                    EnergySourceType.COAL, 1,
+                    EnergySourceType.BATTERY, 1
+                );
+            }
+            case HARD -> {
+                maxEnergySources = 5;
+                gameState.getCity().setBudget(7000);
+                energySourceLimits = Map.of(
+                    EnergySourceType.SOLAR, 6,
+                    EnergySourceType.WIND, 4,
+                    EnergySourceType.GAS, 2,
+                    EnergySourceType.COAL, 2,
+                    EnergySourceType.BATTERY, 2
+                );
+            }
+        }
+        for (EnergySourceType t : EnergySourceType.values()) energySourceCounts.put(t, 0);
+    }
+
     private void placeRandomBuildings(int numberOfBuildings) {
         Random rand = new Random();
         int placedCount = 0;
