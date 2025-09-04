@@ -386,6 +386,73 @@ public class GameBoardController {
             } else showMessage("No energy source to undo.");
         } else showMessage("No placements to undo.");
     }
+     // ====== Reset / Undo / Simulation ======
+    @FXML
+    private void resetDay() {
+    	  int budget = 0;
+          switch (selectedDifficulty) {
+              case EASY:
+                  budget = 9000;
+                  break;
+              case MEDIUM:
+                  budget = 4500;
+                  break;
+              case HARD:
+                  budget = 7000;
+                  break;
+          }
+
+          // Set the budget and reset pollution
+          gameState.getCity().setBudget(budget);
+        gameState.getCity().setPollution(0);
+
+        for (int r = 0; r < BOARD_ROWS; r++)
+            for (int c = 0; c < BOARD_COLS; c++) {
+                Tile t = gameState.getGrid()[r][c];
+                t.setEnergySource(null);
+                if (t.getType() == TileType.SOURCE_REF) t.setType(TileType.EMPTY);
+                updateTileUI(r, c);
+            }
+
+        placedTiles.clear();
+        for (EnergySourceType t : EnergySourceType.values()) energySourceCounts.put(t, 0);
+
+        maxEnergySources = switch (selectedDifficulty) {
+            case EASY -> 10;
+            case MEDIUM -> 7;
+            case HARD -> 5;
+        };
+
+        updateHUD();
+    }
+
+
+
+ @FXML
+    private void runSimulation() {
+        disablePlacementButtons();
+        SimulationEngine engine = new SimulationEngine();
+        ReportModel report = engine.runSimulation(gameState);
+        showSimulationResults(report);
+    }
+
+
+ private void showSimulationResults(ReportModel report) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/SimulationResults.fxml"));
+            Parent root = loader.load();
+            SimulationResultsController controller = loader.getController();
+            controller.setData(gameState, report);
+            Stage stage = (Stage) gameGrid.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setFullScreen(true); 
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
