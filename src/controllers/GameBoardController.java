@@ -298,6 +298,41 @@ public class GameBoardController {
         return types[new Random().nextInt(types.length)];
     }
 
+    private void handleTileClick(int row, int col) {
+        if (selectedType == null) return;
+        Tile tile = gameState.getGrid()[row][col];
+        if (tile.getType() != TileType.EMPTY) {
+            showMessage("Cannot place here! Tile already occupied.");
+            return;
+        }
+        placeEnergySourceOnTile(tile, selectedType);
+    }
+
+    private void placeEnergySourceOnTile(Tile tile, EnergySourceType type) {
+        if (energySourceCounts.get(type) >= energySourceLimits.get(type)) {
+            showMessage("Limit reached for " + type);
+            return;
+        }
+
+        EnergySource source = createEnergySource(type,tile);
+        if (gameState.getCity().getBudget() < source.getCost()) {
+            showMessage("Not enough budget!");
+            return;
+        }
+
+        gameState.getCity().setBudget(gameState.getCity().getBudget() - source.getCost());
+        tile.setEnergySource(source);
+        tile.setType(TileType.SOURCE_REF);
+        placedTiles.add(tile);
+        gameState.addPlacedSource(source);
+
+        energySourceCounts.put(type, energySourceCounts.get(type) + 1);
+        maxEnergySources--;
+
+        updateTileUI(tile.getRow(), tile.getCol());
+        updateHUD();
+    }
+
 
 
     private EnergySource createEnergySource(EnergySourceType type, Tile tile) {
