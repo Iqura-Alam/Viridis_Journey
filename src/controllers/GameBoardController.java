@@ -267,7 +267,25 @@ public class GameBoardController {
 
     	}
 
+    @FXML
+    private void undoPlacement() {
+        if (!placedTiles.isEmpty()) {
+            Tile lastTile = placedTiles.remove(placedTiles.size() - 1);
+            EnergySource source = lastTile.getEnergySource();
 
+            if (source != null) {
+                gameState.getCity().setBudget(gameState.getCity().getBudget() + source.getCost());
+                lastTile.setEnergySource(null);
+                lastTile.setType(TileType.EMPTY);
+
+                energySourceCounts.put(source.getType(), energySourceCounts.get(source.getType()) - 1);
+                maxEnergySources++;
+
+                updateTileUI(lastTile.getRow(), lastTile.getCol());
+                updateHUD();
+            } else showMessage("No energy source to undo.");
+        } else showMessage("No placements to undo.");
+    }
 
 
 }
