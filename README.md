@@ -146,6 +146,15 @@ ViridisJourney/
    The game window will open, and you can start placing energy sources on the city grid.
 
 
+## Contributors
+
+- [@MaishaNajAlam](https://github.com/MaishaNajAlam) (Maisha Naj Alam): Game mechanics and backend logic, initial board and building setup, budget management, Easy & Medium mode handling, retry and reload functionality.
+
+- [@argyroselene](https://github.com/argyroselene) (Sidratul Muntaha): User interface design and polish, tile interactions, click-to-place energy sources, weather and energy calculations, battery logic, event handling, win condition checks.
+
+- [@Iqura-Alam](https://github.com/Iqura-Alam) (Iqura Alam Roza): Advanced gameplay features, energy source setup and drag-and-drop placement, Hard mode logic, day progression, pollution management, star rating system, audio and sound integration.
+
+
 ## Future Enhancements
 
 - Add new energy sources such as nuclear or hydro power.  
